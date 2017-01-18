@@ -1,0 +1,17 @@
+{
+  "env": {
+    "inferno": {
+      "presets": ["es2015", "stage-0"],
+      "plugins": [
+        "inferno",
+        "transform-babel-env-inline"
+      ]
+    },
+    "react": {
+      "presets": ["es2015", "stage-0", "react"],
+      "plugins": [
+        "transform-babel-env-inline"
+      ],
+    }
+  }
+}
