@@ -14,7 +14,7 @@ export default function Cluster (props) {
         pixelToLatLng,
         latLngToPixel,
         children,
-        clusterMarkerRadius = 40,
+        clusterMarkerRadius = 100,
         maxZoom = 16
     } = props
 
