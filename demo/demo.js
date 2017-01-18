@@ -9,13 +9,13 @@ export default class Demo extends Component {
         return (
             <div style={{ textAlign: 'center', marginTop: 50 }}>
                 <Map center={[50.879, 4.6997]}
-                     zoom={12}
+                     zoom={11}
                      width={600}
                      height={400}>
                     <Cluster>
-                        <Marker key='m1' anchor={[50.879, 4.6997]} payload={1}/>
-                        <Marker key='m2' anchor={[50.779, 4.4997]} payload={1}/>
-                        <Marker key='m3' anchor={[50.679, 4.5997]} payload={1}/>
+                        <Marker key='m1' anchor={[50.889, 4.6997]} payload={1}/>
+                        <Marker key='m2' anchor={[50.879, 4.7]} payload={1}/>
+                        <Marker key='m3' anchor={[50.869, 4.72]} payload={1}/>
                     </Cluster>
                 </Map>
             </div>

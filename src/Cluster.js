@@ -52,7 +52,9 @@ export default function Cluster (props) {
         if (isCluster) {
             const pixelOffset = latLngToPixel(markerOrCluster.geometry.coordinates)
             const clusterElementKey = markerOrCluster.geometry.coordinates.toString()
-            displayElement = <DefaultClusterMarker key={clusterElementKey} pixelOffset={pixelOffset}/>
+            displayElement = <DefaultClusterMarker key={clusterElementKey}
+                                                   count={markerOrCluster.properties.point_count}
+                                                   pixelOffset={pixelOffset} />
         } else {
             displayElement = markerOrCluster.vNode
         }
