@@ -13,9 +13,9 @@ export default class Demo extends Component {
                      width={600}
                      height={400}>
                     <Cluster>
-                        <Marker anchor={[50.879, 4.6997]} payload={1}/>
-                        <Marker anchor={[50.779, 4.4997]} payload={1}/>
-                        <Marker anchor={[50.679, 4.5997]} payload={1}/>
+                        <Marker key='m1' anchor={[50.879, 4.6997]} payload={1}/>
+                        <Marker key='m2' anchor={[50.779, 4.4997]} payload={1}/>
+                        <Marker key='m3' anchor={[50.679, 4.5997]} payload={1}/>
                     </Cluster>
                 </Map>
             </div>

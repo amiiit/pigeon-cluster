@@ -1,6 +1,7 @@
 import {React, Inferno, Component, PropTypes} from './infact'
 import supercluster from 'supercluster'
 import DefaultClusterMarker from './DefaultClusterMarker'
+const cloneElement = process.env.BABEL_ENV === 'inferno' ? Inferno.cloneVNode : React.cloneElement
 
 const [iLNG, iLAT] = [0, 1]
 
@@ -19,7 +20,7 @@ export default function Cluster (props) {
 
     const markers = children.map(function (marker) {
         const pixel = latLngToPixel(marker.props.anchor)
-        return Inferno.cloneVNode(marker, {
+        return cloneElement(marker, {
             pixelToLatLng,
             latLngToPixel,
             left: pixel[0],
@@ -50,7 +51,8 @@ export default function Cluster (props) {
         const isCluster = markerOrCluster && markerOrCluster.properties && markerOrCluster.properties.cluster
         if (isCluster) {
             const pixelOffset = latLngToPixel(markerOrCluster.geometry.coordinates)
-            displayElement = <DefaultClusterMarker pixelOffset={pixelOffset}/>
+            const clusterElementKey = markerOrCluster.geometry.coordinates.toString()
+            displayElement = <DefaultClusterMarker key={clusterElementKey} pixelOffset={pixelOffset}/>
         } else {
             displayElement = markerOrCluster.vNode
         }
