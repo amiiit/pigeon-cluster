@@ -20,7 +20,7 @@ module.exports = {
       './index.js'
     ] : [
       'webpack-dev-server/client?http://0.0.0.0:4040',
-      'webpack/hot/only-dev-server',
+      // 'webpack/hot/only-dev-server',
       './index.js'
     ]
   },
@@ -63,16 +63,7 @@ module.exports = {
         NODE_ENV: JSON.stringify(nodeEnv),
         BABEL_ENV: JSON.stringify(babelEnv)
       }
-    }),
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings: false
-    //   },
-    //   output: {
-    //     comments: false
-    //   },
-    //   sourceMap: false
-    // })
+    })
   ],
   devServer: {
     contentBase: './demo'

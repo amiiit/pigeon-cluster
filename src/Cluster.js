@@ -5,70 +5,73 @@ const cloneElement = process.env.BABEL_ENV === 'inferno' ? Inferno.cloneVNode : 
 
 const [iLNG, iLAT] = [0, 1]
 
-export default function Cluster (props) {
-    if (!Array.isArray(props.children)) {
-        return props.children
-    }
-    const {
-        mapState,
-        pixelToLatLng,
-        latLngToPixel,
-        children,
-        clusterMarkerRadius = 100,
-        maxZoom = 16
-    } = props
+export default class Cluster extends Component {
 
-    const markers = children.map(function (marker) {
-        const pixel = latLngToPixel(marker.props.anchor)
-        return cloneElement(marker, {
+    render () {
+        const props = this.props
+        if (!Array.isArray(props.children)) {
+            return props.children
+        }
+        const {
+            mapState,
             pixelToLatLng,
             latLngToPixel,
-            left: pixel[0],
-            top: pixel[1]
-        })
-    });
+            children,
+            clusterMarkerRadius = 100,
+            maxZoom = 16
+        } = props
 
-    const pointsForClustering = markers.map((marker) => {
-        return {
-            vNode: marker,
-            geometry: {
-                coordinates: marker.props.anchor
+        const markers = children.map(function (marker) {
+            const pixel = latLngToPixel(marker.props.anchor)
+            return cloneElement(marker, {
+                pixelToLatLng,
+                latLngToPixel,
+                left: pixel[0],
+                top: pixel[1]
+            })
+        });
+
+        const pointsForClustering = markers.map((marker) => {
+            return {
+                vNode: marker,
+                geometry: {
+                    coordinates: marker.props.anchor
+                }
             }
-        }
-    });
+        });
 
-    const index = supercluster({
-        radius: clusterMarkerRadius,
-        maxZoom
-    });
+        const index = supercluster({
+            radius: clusterMarkerRadius,
+            maxZoom
+        });
 
-    index.load(pointsForClustering);
-    const { ne, sw } = mapState.bounds
-    const [westLng, southLat, eastLng, northLat] = [sw[iLNG], sw[iLAT], ne[iLNG], ne[iLAT]];
-    const markersAndClusters = index.getClusters([westLng, southLat, eastLng, northLat], Math.floor(mapState.zoom))
+        index.load(pointsForClustering);
+        const { ne, sw } = mapState.bounds
+        const [westLng, southLat, eastLng, northLat] = [sw[iLNG], sw[iLAT], ne[iLNG], ne[iLAT]];
+        const markersAndClusters = index.getClusters([westLng, southLat, eastLng, northLat], Math.floor(mapState.zoom))
 
-    const displayElements = markersAndClusters.map(markerOrCluster => {
-        let displayElement
-        const isCluster = markerOrCluster && markerOrCluster.properties && markerOrCluster.properties.cluster
-        if (isCluster) {
-            const pixelOffset = latLngToPixel(markerOrCluster.geometry.coordinates)
-            const clusterElementKey = markerOrCluster.geometry.coordinates.toString()
-            displayElement = <DefaultClusterMarker key={clusterElementKey}
-                                                   count={markerOrCluster.properties.point_count}
-                                                   pixelOffset={pixelOffset} />
-        } else {
-            displayElement = markerOrCluster.vNode
-        }
-        return displayElement
-    })
+        const displayElements = markersAndClusters.map(markerOrCluster => {
+            let displayElement
+            const isCluster = markerOrCluster && markerOrCluster.properties && markerOrCluster.properties.cluster
+            if (isCluster) {
+                const pixelOffset = latLngToPixel(markerOrCluster.geometry.coordinates)
+                const clusterElementKey = markerOrCluster.geometry.coordinates.toString()
+                displayElement = <DefaultClusterMarker key={clusterElementKey}
+                                                       count={markerOrCluster.properties.point_count}
+                                                       pixelOffset={pixelOffset}/>
+            } else {
+                displayElement = markerOrCluster.vNode
+            }
+            return displayElement
+        })
 
-    return (
-        <div className={props.className || ''}
-             style={{ position: 'absolute', height: mapState.height, width: mapState.width }}>
-            {displayElements}
-        </div>
-    )
+        return (
+            <div className={props.className || ''}
+                 style={{ position: 'absolute', height: mapState.height, width: mapState.width }}>
+                {displayElements}
+            </div>
+        )
+    }
 }
-
 
 
