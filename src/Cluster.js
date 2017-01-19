@@ -46,6 +46,7 @@ export default function Cluster (props) {
     const { ne, sw } = mapState.bounds
     const [westLng, southLat, eastLng, northLat] = [sw[iLNG], sw[iLAT], ne[iLNG], ne[iLAT]];
     const markersAndClusters = index.getClusters([westLng, southLat, eastLng, northLat], Math.floor(mapState.zoom))
+
     const displayElements = markersAndClusters.map(markerOrCluster => {
         let displayElement
         const isCluster = markerOrCluster && markerOrCluster.properties && markerOrCluster.properties.cluster

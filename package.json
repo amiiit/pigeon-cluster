@@ -1,8 +1,9 @@
 {
   "name": "pigeon-cluster",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "A pigeon-maps component that clusters your markers",
-  "main": "index.js",
+  "jsnext:main": "src/index.js",
+  "main": "lib/react/index.js",
   "scripts": {
     "start": "npm run start:react",
     "start:react": "BABEL_ENV=react ./node_modules/.bin/webpack-dev-server --history-api-fallback --hot --host 0.0.0.0 --port 4040 --display-modules",
