@@ -1,6 +1,6 @@
 {
   "name": "pigeon-cluster",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A pigeon-maps component that clusters your markers",
   "jsnext:main": "src/index.js",
   "main": "lib/react/index.js",
