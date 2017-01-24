@@ -12,6 +12,7 @@ export default class Cluster extends Component {
 
     constructor (props) {
         super(props)
+        this.state = {}
     }
 
     componentDidMount () {
@@ -56,7 +57,7 @@ export default class Cluster extends Component {
 
     loadPoints (pointsMap) {
         const index = supercluster({
-            radius: this.props.clusterMarkerRadius || 100,
+            radius: this.props.clusterMarkerRadius || 40,
             maxZoom: this.props.maxZoom || 16
         });
 
