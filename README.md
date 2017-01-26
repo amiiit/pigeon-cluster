@@ -1,4 +1,4 @@
-__pigeon-cluster - Cluster component for pigeon-maps__
+# pigeon-cluster - Cluster component for pigeon-maps
 
 pigeon-cluster was designed to be easy to use in your application:
 
