@@ -3,6 +3,10 @@
 pigeon-cluster was designed to be easy to use in your application:
 
 ```
+$ npm install pigeon-cluster --save
+```
+
+```
 import Map from 'pigeon-maps'
 import Cluster from 'pigeon-cluster'
 import Marker from 'pigeon-marker'
