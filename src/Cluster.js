@@ -66,8 +66,7 @@ export default class Cluster extends Component {
     }
 
     componentWillReceiveProps (nextProps) {
-        if (ensureArray(nextProps.children).length !== ensureArray(this.props.children).length) {
-            //cheap check for new children
+        if (nextProps.children !== this.props.children) {
             this.rebuildData(nextProps)
         }
     }
