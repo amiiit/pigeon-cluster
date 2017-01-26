@@ -1,6 +1,6 @@
 {
   "name": "pigeon-cluster",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A pigeon-maps component that clusters your markers",
   "jsnext:main": "src/index.js",
   "main": "lib/react/index.js",
@@ -9,6 +9,7 @@
     "start:react": "BABEL_ENV=react ./node_modules/.bin/webpack-dev-server --history-api-fallback --hot --host 0.0.0.0 --port 4040 --display-modules",
     "start:inferno": "BABEL_ENV=inferno ./node_modules/.bin/webpack-dev-server --history-api-fallback --hot --host 0.0.0.0 --port 4040 --display-modules",
     "build": "npm run build:demo && npm run build:lib",
+    "release": "npm run build; npm publish",
     "build:demo": "npm run build:demo:react && npm run build:demo:inferno",
     "build:demo:react": "BABEL_ENV=react node build.js production",
     "build:demo:inferno": "BABEL_ENV=inferno node build.js production",
