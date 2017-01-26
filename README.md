@@ -13,6 +13,7 @@ const coordinates = [
     [lat,lng]
     ...
 ]
+
 <Map center={[50.879, 4.6997]}
      zoom={4}
      width={600}
