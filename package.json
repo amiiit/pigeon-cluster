@@ -23,7 +23,7 @@
     "supercluster": "^2.2.0"
   },
   "peerDependencies": {
-    "pigeon-maps": "*0.8.0"
+    "pigeon-maps": "^0.8.0"
   },
   "devDependencies": {
     "babel-cli": "6.18.0",
