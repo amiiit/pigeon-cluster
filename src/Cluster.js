@@ -46,7 +46,7 @@ export default class Cluster extends Component {
                     pixelToLatLng: this.props.pixelToLatLng
                 }),
                 geometry: {
-                    coordinates: child.props.anchor
+                    coordinates: child.props.anchor.map(a => a).reverse() // [lng, lat]
                 },
                 id: key
             }
@@ -61,7 +61,8 @@ export default class Cluster extends Component {
             maxZoom: this.props.maxZoom || 16
         });
 
-        index.load(Object.keys(pointsMap).map(id => pointsMap[id]));
+        const points = Object.keys(pointsMap).map(id => pointsMap[id])
+        index.load(points);
         return index
     }
 
@@ -74,20 +75,25 @@ export default class Cluster extends Component {
     render () {
         const { latLngToPixel, mapState, className } = this.props
         const { ne, sw } = mapState.bounds
-        const [westLng, southLat, eastLng, northLat] = [sw[iLNG], sw[iLAT], ne[iLNG], ne[iLAT]];
+        const [west, south, east, north] = [sw[1], sw[0], ne[1], ne[0]];
+        if (Math.abs(south) > 90 || Math.abs(north) > 90) {
+            console.warn(`south or north are out of bounds. south: ${south}, north: ${north}`)
+        }
 
-        const markersAndClusters = this.state.index && this.state.index.getClusters([westLng, southLat, eastLng, northLat], Math.floor(mapState.zoom))
+        const markersAndClusters = this.state.index && this.state.index.getClusters([west, south, east, north], Math.floor(mapState.zoom))
 
         const displayElements = (markersAndClusters || []).map(markerOrCluster => {
             let displayElement
             const isCluster = markerOrCluster && markerOrCluster.properties && markerOrCluster.properties.cluster
-            const pixelOffset = latLngToPixel(markerOrCluster.geometry.coordinates)
+            let pixelOffset
             if (isCluster) {
+                pixelOffset = latLngToPixel(markerOrCluster.geometry.coordinates.map(a => a).reverse())
                 const clusterElementKey = markerOrCluster.geometry.coordinates.toString()
                 displayElement = <DefaultClusterMarker key={clusterElementKey}
                                                        count={markerOrCluster.properties.point_count}
                                                        pixelOffset={pixelOffset}/>
             } else {
+                pixelOffset = latLngToPixel(markerOrCluster.vNode.props.anchor)
                 displayElement = cloneElement(this.state.pointsMap[markerOrCluster.id].vNode, {
                     left: pixelOffset[0],
                     top: pixelOffset[1]

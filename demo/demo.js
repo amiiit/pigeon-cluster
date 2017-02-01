@@ -5,12 +5,14 @@ import Cluster from 'pigeon-cluster'
 import Marker from 'pigeon-marker/infact'
 import coords from './5000coords.js'
 
+const featuresLatLng = coords.lngLats.map(lngLat => [lngLat[1], lngLat[0]])
+
 export default class Demo extends Component {
 
     constructor (props) {
         super(props)
         this.state = {
-            displayPoints: coords.features.length
+            displayPoints: featuresLatLng.length
         }
     }
     addPoints = () => {
@@ -23,22 +25,37 @@ export default class Demo extends Component {
 
     updatePointsCount (diff) {
         this.setState({
-            displayPoints: Math.max(0, Math.min(this.state.displayPoints + diff, coords.features.length))
+            displayPoints: Math.max(0, Math.min(this.state.displayPoints + diff, featuresLatLng.length))
         })
     }
 
+    handleMapBoundsChanged = (e) => {
+        this.setState({
+            mapBounds: e.bounds,
+            mapCenter: e.center,
+            mapZoom: e.zoom
+        })
+    }
+
+    handleMapClick = (e) => {
+        console.log(JSON.stringify(e.latLng))
+    }
+
     render () {
-        const pointsToDisplay = coords.features.slice(0, this.state.displayPoints)
+        const pointsToDisplay = featuresLatLng.slice(0, this.state.displayPoints)
         return (
             <div style={{ textAlign: 'center' }}>
                 <div style={{display: 'flex', justifyContent: 'space-between', width: 500, margin: '0 auto', padding: 16}}>
                     <button onClick={this.addPoints}>Add points</button>
                     <button onClick={this.removePoints}>Remove points</button>
-                    <span>{this.state.displayPoints} Points</span>
+                    <p>{this.state.displayPoints} Points</p>
+                    <p>{JSON.stringify(this.state.mapBounds)}</p>
                 </div>
-                <Map center={[50.879, 4.6997]}
-                     zoom={4}
+                <Map center={this.state.mapCenter || [50.879, 4.6997]}
+                     zoom={this.state.mapZoom || 4}
                      width={600}
+                     onClick={this.handleMapClick}
+                     onBoundsChanged={this.handleMapBoundsChanged}
                      height={400}>
                     <Cluster>
                         {
