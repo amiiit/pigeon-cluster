@@ -72,7 +72,12 @@ export default class Cluster extends Component {
     }
 
     render () {
-        const { latLngToPixel, mapState, className } = this.props
+        const {
+            latLngToPixel,
+            mapState,
+            className,
+            component: ClusterComponent = DefaultClusterMarker
+        } = this.props
         const { ne, sw } = mapState.bounds
         const [westLng, southLat, eastLng, northLat] = [sw[iLNG], sw[iLAT], ne[iLNG], ne[iLAT]];
 
@@ -84,7 +89,7 @@ export default class Cluster extends Component {
             const pixelOffset = latLngToPixel(markerOrCluster.geometry.coordinates)
             if (isCluster) {
                 const clusterElementKey = markerOrCluster.geometry.coordinates.toString()
-                displayElement = <DefaultClusterMarker key={clusterElementKey}
+                displayElement = <ClusterComponent key={clusterElementKey}
                                                        count={markerOrCluster.properties.point_count}
                                                        pixelOffset={pixelOffset}/>
             } else {
